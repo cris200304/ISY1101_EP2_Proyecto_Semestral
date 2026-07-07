@@ -1,0 +1,73 @@
+name: CI Proyecto Semestral DevOps
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  backend-ventas:
+    name: Compilar Backend Ventas
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back-Ventas_SpringBoot/Springboot-API-REST
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Compilar proyecto
+        run: mvn clean package -DskipTests
+
+  backend-despachos:
+    name: Compilar Backend Despachos
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Compilar proyecto
+        run: mvn clean package -DskipTests
+
+  frontend:
+    name: Compilar Frontend
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: front_despacho
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Compilar Frontend
+        run: npm run build
